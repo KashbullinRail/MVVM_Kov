@@ -20,9 +20,9 @@ class MainActivity : AppCompatActivity() {
     private val btnGetName: Button by lazy { findViewById(R.id.btnGetName) }
     private val btnSaveData: Button by lazy { findViewById(R.id.btnSaveName) }
 
-    private val userRepository = UserRepositoryImp()
-    private val getUserNameUseCase = GetUserNameUseCase(userRepository = userRepository)
-    private val saveUserNameUseCase = SaveUserNameUseCase(userRepository = userRepository)
+    private val userRepository by lazy(LazyThreadSafetyMode.NONE) { UserRepositoryImp(context = applicationContext) }
+    private val getUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { GetUserNameUseCase(userRepository = userRepository) }
+    private val saveUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { SaveUserNameUseCase(userRepository = userRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
