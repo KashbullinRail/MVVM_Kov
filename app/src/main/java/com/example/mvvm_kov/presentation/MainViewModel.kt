@@ -1,6 +1,7 @@
 package com.example.mvvm_kov.presentation
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mvvm_kov.domain.models.SaveUserName
 import com.example.mvvm_kov.domain.models.UserName
@@ -12,6 +13,7 @@ class MainViewModel(
     private val saveUserNameUseCase: SaveUserNameUseCase
 ) : ViewModel() {
 
+    val resultLiveData = MutableLiveData<String>()
 
     init {
         Log.e("exc", "ViewModel created")
@@ -22,16 +24,16 @@ class MainViewModel(
         super.onCleared()
     }
 
-    fun save(text: String): String {
+    fun save(text: String) {
         val name = SaveUserName(saveName = text)
-        val result: Boolean = saveUserNameUseCase.execute(userName = name)
-        return "Save result $result"
+        val resultData: Boolean = saveUserNameUseCase.execute(userName = name)
+        resultLiveData.value ="Save result $resultData"
     }
 
-    fun get(): String {
+    fun get() {
         val userName: UserName = getUserNameUseCase.execute()
-        val result: String = "${userName.firstName} ${userName.lastName}"
-        return result
+       resultLiveData.value ="${userName.firstName} ${userName.lastName}"
+
     }
 
 

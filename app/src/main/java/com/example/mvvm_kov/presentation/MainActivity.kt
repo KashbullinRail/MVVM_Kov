@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvvm_kov.R
@@ -36,14 +37,18 @@ class MainActivity : AppCompatActivity() {
         vm = ViewModelProvider(this, MainViewModelFactory(this))
             .get(MainViewModel::class.java)
 
+        vm.resultLiveData.observe(this, Observer {
+            tvGetName.text = it
+        })
+
         btnGetName.setOnClickListener {
-            tvGetName.text = vm.get()
+            vm.get()
 
         }
 
         btnSaveData.setOnClickListener {
             val text = etPutData.text.toString()
-            tvGetName.text = vm.save(text)
+            vm.save(text)
         }
 
     }
