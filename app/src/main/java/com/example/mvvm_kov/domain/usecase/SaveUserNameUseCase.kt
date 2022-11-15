@@ -1,15 +1,13 @@
 package com.example.mvvm_kov.domain.usecase
 
 import com.example.mvvm_kov.domain.models.SaveUserName
+import com.example.mvvm_kov.domain.repository.UserRepository
 
-class SaveUserNameUseCase {
+class SaveUserNameUseCase(private val userRepository: UserRepository) {
 
     fun execute(userName: SaveUserName):Boolean {
-        if(userName.name.isEmpty()){
-            return false
-        } else {
-            return true
-        }
+        val result: Boolean = userRepository.saveName(saveUserName = userName)
+        return result
     }
 
 }

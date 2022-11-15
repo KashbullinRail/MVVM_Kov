@@ -1,4 +1,4 @@
-package com.example.mvvm_kov.domain.presentation
+package com.example.mvvm_kov.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,8 +6,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.example.mvvm_kov.R
+import com.example.mvvm_kov.data.repositoty.UserRepositoryImp
 import com.example.mvvm_kov.domain.models.SaveUserName
 import com.example.mvvm_kov.domain.models.UserName
+import com.example.mvvm_kov.domain.repository.UserRepository
 import com.example.mvvm_kov.domain.usecase.GetUserNameUseCase
 import com.example.mvvm_kov.domain.usecase.SaveUserNameUseCase
 
@@ -18,8 +20,9 @@ class MainActivity : AppCompatActivity() {
     private val btnGetName: Button by lazy { findViewById(R.id.btnGetName) }
     private val btnSaveData: Button by lazy { findViewById(R.id.btnSaveName) }
 
-    private val getUserNameUseCase = GetUserNameUseCase()
-    private val saveUserNameUseCase = SaveUserNameUseCase()
+    private val userRepository = UserRepositoryImp()
+    private val getUserNameUseCase = GetUserNameUseCase(userRepository = userRepository)
+    private val saveUserNameUseCase = SaveUserNameUseCase(userRepository = userRepository)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         btnSaveData.setOnClickListener {
             val text = etPutData.text.toString()
-            val name = SaveUserName(name = text)
+            val name = SaveUserName(saveName = text)
             val result: Boolean = saveUserNameUseCase.execute(userName = name)
             tvGetName.text = "Save result $result"
         }
