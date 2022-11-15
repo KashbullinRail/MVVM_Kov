@@ -11,17 +11,22 @@ class UserRepositoryImp(private val userStorage: UserStorage) : UserRepository {
 
 
     override fun saveName(saveUserName: SaveUserName): Boolean {
-
-        val user = User(firstName = saveUserName.saveName, lastName = "")
-
+        val user =  mapToStorage(saveUserName)
         val result = userStorage.save(user)
         return result
     }
 
     override fun getName(): UserName {
         val user = userStorage.get()
-        val userName = UserName(firstName = user.firstName, lastName = user.lastName)
-        return userName
+        return mapToDomain(user)
+    }
+
+    private fun mapToStorage(saveUserName: SaveUserName):User{
+        return User(firstName = saveUserName.saveName, lastName = "")
+    }
+
+    private fun mapToDomain(user: User):UserName{
+        return UserName(firstName = user.firstName, lastName = user.lastName)
     }
 
 }
