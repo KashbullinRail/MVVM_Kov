@@ -7,16 +7,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvvm_kov.R
-import com.example.mvvm_kov.data.repositoty.UserRepositoryImp
-import com.example.mvvm_kov.data.storage.sharedpref.SharedPrefUserStorage
-import com.example.mvvm_kov.domain.models.SaveUserName
-import com.example.mvvm_kov.domain.models.UserName
-import com.example.mvvm_kov.domain.repository.UserRepository
-import com.example.mvvm_kov.domain.usecase.GetUserNameUseCase
-import com.example.mvvm_kov.domain.usecase.SaveUserNameUseCase
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,17 +18,13 @@ class MainActivity : AppCompatActivity() {
     private val btnGetName: Button by lazy { findViewById(R.id.btnGetName) }
     private val btnSaveData: Button by lazy { findViewById(R.id.btnSaveName) }
 
-
-    private lateinit var vm: MainViewModel
+    private val vm by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         Log.e("exc", "Activity created")
-
-        vm = ViewModelProvider(this, MainViewModelFactory(this))
-            .get(MainViewModel::class.java)
 
         vm.resultLiveData.observe(this, Observer {
             tvGetName.text = it
