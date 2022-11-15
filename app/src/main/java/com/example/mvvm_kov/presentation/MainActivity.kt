@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.mvvm_kov.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,9 +25,9 @@ class MainActivity : AppCompatActivity() {
 
         Log.e("exc", "Activity created")
 
-        vm.resultLiveData.observe(this, Observer {
-            tvGetName.text = it
-        })
+        vm.stateLiveData.observe(this) { state ->
+            tvGetName.text = "${state.firsName} ${state.lastName} ${state.saveResult}"
+        }
 
         btnGetName.setOnClickListener {
             vm.send(GetEvent())
