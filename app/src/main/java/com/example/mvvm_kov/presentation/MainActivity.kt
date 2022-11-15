@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import com.example.mvvm_kov.R
 import com.example.mvvm_kov.data.repositoty.UserRepositoryImp
+import com.example.mvvm_kov.data.storage.sharedpref.SharedPrefUserStorage
 import com.example.mvvm_kov.domain.models.SaveUserName
 import com.example.mvvm_kov.domain.models.UserName
 import com.example.mvvm_kov.domain.repository.UserRepository
@@ -20,9 +21,17 @@ class MainActivity : AppCompatActivity() {
     private val btnGetName: Button by lazy { findViewById(R.id.btnGetName) }
     private val btnSaveData: Button by lazy { findViewById(R.id.btnSaveName) }
 
-    private val userRepository by lazy(LazyThreadSafetyMode.NONE) { UserRepositoryImp(context = applicationContext) }
-    private val getUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { GetUserNameUseCase(userRepository = userRepository) }
-    private val saveUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { SaveUserNameUseCase(userRepository = userRepository) }
+    private val userRepository by lazy(LazyThreadSafetyMode.NONE) {
+        UserRepositoryImp(userStorage = SharedPrefUserStorage(context = applicationContext))
+    }
+
+    private val getUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) {
+        GetUserNameUseCase(userRepository = userRepository)
+    }
+
+    private val saveUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) {
+        SaveUserNameUseCase(userRepository = userRepository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
