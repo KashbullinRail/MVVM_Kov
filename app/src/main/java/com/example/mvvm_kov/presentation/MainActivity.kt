@@ -24,17 +24,6 @@ class MainActivity : AppCompatActivity() {
     private val btnGetName: Button by lazy { findViewById(R.id.btnGetName) }
     private val btnSaveData: Button by lazy { findViewById(R.id.btnSaveName) }
 
-    private val userRepository by lazy(LazyThreadSafetyMode.NONE) {
-        UserRepositoryImp(userStorage = SharedPrefUserStorage(context = applicationContext))
-    }
-
-    private val getUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) {
-        GetUserNameUseCase(userRepository = userRepository)
-    }
-
-    private val saveUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) {
-        SaveUserNameUseCase(userRepository = userRepository)
-    }
 
     private lateinit var vm: MainViewModel
 
@@ -44,19 +33,17 @@ class MainActivity : AppCompatActivity() {
 
         Log.e("exc", "Activity created")
 
-        vm = ViewModelProvider(this).get(MainViewModel::class.java)
+        vm = ViewModelProvider(this, MainViewModelFactory(this))
+            .get(MainViewModel::class.java)
 
         btnGetName.setOnClickListener {
-            val userName: UserName = getUserNameUseCase.execute()
-            tvGetName.text = "${userName.firstName} ${userName.lastName}"
+            tvGetName.text = vm.get()
 
         }
 
         btnSaveData.setOnClickListener {
             val text = etPutData.text.toString()
-            val name = SaveUserName(saveName = text)
-            val result: Boolean = saveUserNameUseCase.execute(userName = name)
-            tvGetName.text = "Save result $result"
+            tvGetName.text = vm.save(text)
         }
 
     }
