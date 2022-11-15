@@ -2,9 +2,12 @@ package com.example.mvvm_kov.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.mvvm_kov.R
 import com.example.mvvm_kov.data.repositoty.UserRepositoryImp
 import com.example.mvvm_kov.data.storage.sharedpref.SharedPrefUserStorage
@@ -33,9 +36,15 @@ class MainActivity : AppCompatActivity() {
         SaveUserNameUseCase(userRepository = userRepository)
     }
 
+    private lateinit var vm: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        Log.e("exc", "Activity created")
+
+        vm = ViewModelProvider(this).get(MainViewModel::class.java)
 
         btnGetName.setOnClickListener {
             val userName: UserName = getUserNameUseCase.execute()
