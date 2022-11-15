@@ -1,6 +1,6 @@
 package com.example.mvvm_kov.data.repositoty
 
-import com.example.mvvm_kov.data.storage.User
+import com.example.mvvm_kov.data.storage.model.User
 import com.example.mvvm_kov.data.storage.UserStorage
 import com.example.mvvm_kov.domain.models.SaveUserName
 import com.example.mvvm_kov.domain.models.UserName

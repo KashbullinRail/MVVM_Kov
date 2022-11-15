@@ -1,4 +1,4 @@
-package com.example.mvvm_kov.data.storage
+package com.example.mvvm_kov.data.storage.model
 
 import com.example.mvvm_kov.domain.models.SaveUserName
 

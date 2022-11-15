@@ -1,7 +1,9 @@
-package com.example.mvvm_kov.data.storage
+package com.example.mvvm_kov.data.storage.sharedpref
 
 import android.content.Context
 import com.example.mvvm_kov.data.*
+import com.example.mvvm_kov.data.storage.UserStorage
+import com.example.mvvm_kov.data.storage.model.User
 
 class SharedPrefUserStorage(context: Context) : UserStorage {
 
