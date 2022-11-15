@@ -37,13 +37,12 @@ class MainActivity : AppCompatActivity() {
         vm = ViewModelProvider(this, MainViewModelFactory(this))
             .get(MainViewModel::class.java)
 
-        vm.resultLiveData.observe(this, Observer {
+        vm.getResultLiveData().observe(this, Observer {
             tvGetName.text = it
         })
 
         btnGetName.setOnClickListener {
             vm.get()
-
         }
 
         btnSaveData.setOnClickListener {
