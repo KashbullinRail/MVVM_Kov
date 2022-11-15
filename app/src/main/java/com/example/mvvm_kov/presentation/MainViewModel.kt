@@ -15,7 +15,7 @@ class MainViewModel(
 ) : ViewModel() {
 
     private val resultLiveDataMutable = MutableLiveData<String>()
-    val resultLiveData:LiveData<String> = resultLiveDataMutable
+    val resultLiveData: LiveData<String> = resultLiveDataMutable
 
     init {
         Log.e("exc", "ViewModel created")
@@ -26,13 +26,24 @@ class MainViewModel(
         super.onCleared()
     }
 
-    fun save(text: String) {
+    fun send(event: MainEvent) {
+        when (event) {
+            is SaveEvent -> {
+                save(text = event.text)
+            }
+            is GetEvent -> {
+                get()
+            }
+        }
+    }
+
+    private fun save(text: String) {
         val name = SaveUserName(saveName = text)
         val resultData: Boolean = saveUserNameUseCase.execute(userName = name)
         resultLiveDataMutable.value = "Save result $resultData"
     }
 
-    fun get() {
+    private fun get() {
         val userName: UserName = getUserNameUseCase.execute()
         resultLiveDataMutable.value = "${userName.firstName} ${userName.lastName}"
 

@@ -31,12 +31,12 @@ class MainActivity : AppCompatActivity() {
         })
 
         btnGetName.setOnClickListener {
-            vm.get()
+            vm.send(GetEvent())
         }
 
         btnSaveData.setOnClickListener {
             val text = etPutData.text.toString()
-            vm.save(text)
+            vm.send(SaveEvent(text = text))
         }
 
     }
