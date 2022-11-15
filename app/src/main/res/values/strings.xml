@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MVVM_Kov</string>
+    <string name="save_data">Save Data</string>
+    <string name="input_put_data">input put data</string>
+    <string name="get_name">Get Name</string>
+    <string name="no_name">No name</string>
+</resources>
