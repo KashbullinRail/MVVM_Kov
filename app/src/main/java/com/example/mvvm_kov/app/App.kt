@@ -1,24 +1,23 @@
 package com.example.mvvm_kov.app
 
 import android.app.Application
-import com.example.mvvm_kov.di.appModule
-import com.example.mvvm_kov.di.dataModule
-import com.example.mvvm_kov.di.domainModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
+import com.example.mvvm_kov.di.AppComponent
+import com.example.mvvm_kov.di.AppModule
+import com.example.mvvm_kov.di.DaggerAppComponent
 
-class App: Application() {
+
+class App : Application() {
+
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
 
-        startKoin {
-            androidLogger(Level.DEBUG)
-            androidContext(this@App)
-            modules(listOf(appModule, domainModule, dataModule))
-        }
+        appComponent = DaggerAppComponent
+            .builder()
+            .appModule(AppModule(context = this))
+            .build()
+
     }
 
 }
