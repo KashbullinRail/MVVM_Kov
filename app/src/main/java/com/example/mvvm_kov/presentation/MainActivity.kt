@@ -2,16 +2,13 @@ package com.example.mvvm_kov.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import com.example.mvvm_kov.R
-import com.example.mvvm_kov.data.repositoty.UserRepositoryImp
-import com.example.mvvm_kov.domain.models.SaveUserName
-import com.example.mvvm_kov.domain.models.UserName
-import com.example.mvvm_kov.domain.repository.UserRepository
-import com.example.mvvm_kov.domain.usecase.GetUserNameUseCase
-import com.example.mvvm_kov.domain.usecase.SaveUserNameUseCase
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,26 +17,27 @@ class MainActivity : AppCompatActivity() {
     private val btnGetName: Button by lazy { findViewById(R.id.btnGetName) }
     private val btnSaveData: Button by lazy { findViewById(R.id.btnSaveName) }
 
-    private val userRepository by lazy(LazyThreadSafetyMode.NONE) { UserRepositoryImp(context = applicationContext) }
-    private val getUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { GetUserNameUseCase(userRepository = userRepository) }
-    private val saveUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { SaveUserNameUseCase(userRepository = userRepository) }
+    private val vm by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnGetName.setOnClickListener {
-            val userName: UserName = getUserNameUseCase.execute()
-            tvGetName.text = "${userName.firstName} ${userName.lastName}"
+        Log.e("exc", "Activity created")
 
+        vm.stateLiveData.observe(this) { state ->
+            tvGetName.text = "${state.firsName} ${state.lastName} ${state.saveResult}"
+        }
+
+        btnGetName.setOnClickListener {
+            vm.send(GetEvent())
         }
 
         btnSaveData.setOnClickListener {
             val text = etPutData.text.toString()
-            val name = SaveUserName(saveName = text)
-            val result: Boolean = saveUserNameUseCase.execute(userName = name)
-            tvGetName.text = "Save result $result"
+            vm.send(SaveEvent(text = text))
         }
 
     }
+
 }
