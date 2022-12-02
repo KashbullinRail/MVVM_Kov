@@ -1,13 +1,10 @@
 package com.example.mvvm_kov.domain.usecase
 
-import com.example.mvvm_kov.domain.models.SaveUserName
 import com.example.mvvm_kov.domain.models.UserName
 import com.example.mvvm_kov.domain.repository.UserRepository
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.mock
 import org.mockito.kotlin.mock
 
 
